@@ -1,0 +1,149 @@
+.dashboard-page {
+    gap: 20px;
+}
+
+.dashboard-header {
+    align-items: center;
+}
+
+.dashboard-summary-grid,
+.dashboard-risk-grid {
+    display: grid;
+    gap: 16px;
+}
+
+.dashboard-summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dashboard-summary-card {
+    display: grid;
+    gap: 8px;
+    padding: 20px;
+}
+
+.dashboard-summary-card svg {
+    color: var(--primary-teal-deep);
+}
+
+.dashboard-summary-card span,
+.dashboard-risk-card p,
+.dashboard-next-step p {
+    margin: 0;
+    color: var(--body-text);
+    line-height: 1.6;
+}
+
+.dashboard-summary-card strong {
+    color: var(--heading-color);
+    font-size: 1.8rem;
+    letter-spacing: -0.04em;
+}
+
+.dashboard-risk-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboard-risk-card {
+    padding: 22px;
+}
+
+.dashboard-risk-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.dashboard-risk-card__header span {
+    color: var(--body-text);
+    font-size: 0.88rem;
+}
+
+.dashboard-risk-card strong {
+    display: block;
+    margin-top: 20px;
+    color: var(--heading-color);
+    font-size: 2.4rem;
+    letter-spacing: -0.05em;
+}
+
+.dashboard-risk-meter {
+    width: 100%;
+    height: 8px;
+    margin-top: 18px;
+    overflow: hidden;
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    background: var(--surface-muted);
+}
+
+.dashboard-risk-meter::-webkit-progress-bar {
+    border-radius: 999px;
+    background: var(--surface-muted);
+}
+
+.dashboard-risk-meter::-webkit-progress-value {
+    border-radius: 999px;
+}
+
+.dashboard-risk-meter::-moz-progress-bar {
+    border-radius: 999px;
+}
+
+.dashboard-risk-card--high .dashboard-risk-meter::-webkit-progress-value,
+.dashboard-risk-card--high .dashboard-risk-meter::-moz-progress-bar {
+    background: var(--risk-high);
+}
+
+.dashboard-risk-card--medium .dashboard-risk-meter::-webkit-progress-value,
+.dashboard-risk-card--medium .dashboard-risk-meter::-moz-progress-bar {
+    background: var(--risk-medium);
+}
+
+.dashboard-risk-card--low .dashboard-risk-meter::-webkit-progress-value,
+.dashboard-risk-card--low .dashboard-risk-meter::-moz-progress-bar {
+    background: var(--risk-low);
+}
+
+.dashboard-next-step {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px;
+}
+
+.dashboard-next-step h2 {
+    margin: 4px 0 8px;
+    color: var(--heading-color);
+}
+
+.dashboard-status {
+    padding: 18px 20px;
+    border-radius: 18px;
+    color: var(--risk-medium);
+    border: 1px solid rgba(250, 173, 20, 0.24);
+    background: rgba(250, 173, 20, 0.1);
+}
+
+@media (max-width: 1100px) {
+    .dashboard-summary-grid,
+    .dashboard-risk-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .dashboard-summary-grid,
+    .dashboard-risk-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header,
+    .dashboard-next-step {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

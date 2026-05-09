@@ -1,0 +1,97 @@
+.settings-page {
+    gap: 22px;
+}
+
+.settings-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    border-radius: 6px;
+}
+
+.settings-status--error {
+    border: 1px solid rgba(234, 34, 97, 0.18);
+    background: rgba(234, 34, 97, 0.06);
+}
+
+.settings-status--success {
+    border: 1px solid rgba(21, 190, 83, 0.18);
+    background: rgba(21, 190, 83, 0.06);
+}
+
+.settings-top-grid,
+.settings-bottom-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 16px;
+}
+
+.settings-profile-card,
+.settings-threshold-card,
+.settings-password-card {
+    padding: 22px;
+}
+
+.settings-profile-card h2,
+.settings-threshold-card h2,
+.settings-password-card h2 {
+    margin: 6px 0 14px;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--heading-color);
+}
+
+.settings-profile-card__avatar {
+    width: 84px;
+    height: 84px;
+    margin-top: 8px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(83, 58, 253, 0.08);
+    color: var(--primary-purple);
+}
+
+.settings-role-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: rgba(83, 58, 253, 0.08);
+    color: var(--primary-purple);
+}
+
+.settings-threshold-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.settings-threshold-card label {
+    color: var(--body-text);
+    font-size: 0.92rem;
+}
+
+.settings-threshold-card input[type='range'] {
+    width: 100%;
+}
+
+.settings-password-form {
+    display: grid;
+    gap: 12px;
+}
+
+.settings-graph-section {
+    min-height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .settings-top-grid,
+    .settings-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}

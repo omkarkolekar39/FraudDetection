@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    --primary-purple: #0f766e;
+    --primary-purple-hover: #115e59;
+    --primary-teal: #14b8a6;
+    --primary-teal-deep: #0f766e;
+    --primary-teal-soft: #e6f8f5;
+    --heading-color: #0f172a;
+    --body-text: #5f6b7a;
+    --background-color: #f7fafc;
+    --surface-subtle: #f8fbfd;
+    --surface-muted: #edf3f7;
+    --border-color: rgba(148, 163, 184, 0.22);
+
+    --risk-high: #FF4D4F;
+    --risk-medium: #FAAD14;
+    --risk-low: #52C41A;
+
+    --shadow-premium:
+        0 18px 40px -28px rgba(15, 23, 42, 0.18),
+        0 8px 18px -14px rgba(15, 118, 110, 0.14);
+    --shadow-soft:
+        0 12px 30px -24px rgba(15, 23, 42, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    --shadow-floating:
+        0 24px 60px -34px rgba(15, 23, 42, 0.2),
+        0 14px 28px -22px rgba(15, 118, 110, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+
+    --radius-sm: 10px;
+    --radius-md: 20px;
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+}

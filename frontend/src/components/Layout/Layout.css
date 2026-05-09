@@ -1,0 +1,435 @@
+.public-layout {
+    min-height: 100vh;
+}
+
+.app-shell {
+    min-height: 100vh;
+    background: transparent;
+}
+
+.app-shell__body {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    min-height: 100vh;
+    transition: grid-template-columns var(--transition-base);
+}
+
+.app-shell--collapsed .app-shell__body {
+    grid-template-columns: 88px minmax(0, 1fr);
+}
+
+.app-sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: 100vh;
+    padding: 18px 14px;
+    border-right: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+}
+
+.app-sidebar__brand,
+.app-sidebar__collapse,
+.app-sidebar__link,
+.app-icon-button,
+.app-profile-button,
+.app-menu button {
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.app-sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px;
+    color: var(--heading-color);
+    background: transparent;
+    text-align: left;
+}
+
+.app-sidebar__logo,
+.app-profile-button__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.app-sidebar__logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--primary-teal-soft);
+}
+
+.app-sidebar__logo img {
+    width: 28px;
+    height: 28px;
+}
+
+.app-sidebar__brand-text {
+    display: grid;
+    gap: 2px;
+}
+
+.app-sidebar__brand-text strong,
+.app-profile-button strong {
+    color: var(--heading-color);
+}
+
+.app-sidebar__brand-text small,
+.app-profile-button small,
+.app-header__eyebrow {
+    color: var(--body-text);
+}
+
+.app-sidebar__nav {
+    display: grid;
+    gap: 6px;
+}
+
+.app-sidebar__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 42px;
+    padding: 0 12px;
+    border-radius: 14px;
+    color: var(--body-text);
+    text-decoration: none;
+}
+
+.app-sidebar__link:hover,
+.app-sidebar__link.is-active {
+    color: var(--primary-teal-deep);
+    background: rgba(20, 184, 166, 0.1);
+}
+
+.app-sidebar__link.is-active::before {
+    content: "";
+    position: absolute;
+    left: -14px;
+    width: 3px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--primary-teal-deep);
+}
+
+.app-sidebar__collapse {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    margin-top: auto;
+    border-radius: 14px;
+    color: var(--body-text);
+    background: var(--surface-subtle);
+}
+
+.app-shell__content {
+    min-width: 0;
+}
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 76px;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(14px);
+}
+
+.app-header h1 {
+    margin: 2px 0 0;
+    color: var(--heading-color);
+    font-size: 1.05rem;
+}
+
+.app-header__eyebrow {
+    display: block;
+    font-size: 0.76rem;
+}
+
+.app-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.app-health,
+.app-icon-button,
+.app-profile-button {
+    min-height: 40px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: var(--shadow-soft);
+}
+
+.app-health {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    font-size: 0.84rem;
+}
+
+.app-health--online {
+    color: var(--risk-low);
+}
+
+.app-health--offline {
+    color: var(--risk-high);
+}
+
+.app-popover {
+    position: relative;
+}
+
+.app-icon-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    color: var(--heading-color);
+}
+
+.app-icon-button__dot {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--risk-high);
+}
+
+.app-profile-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 6px 4px 12px;
+    color: var(--body-text);
+    background: #ffffff;
+}
+
+.app-profile-button span:first-child {
+    display: grid;
+    gap: 2px;
+    text-align: right;
+}
+
+.app-profile-button__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 11px;
+    color: var(--primary-teal-deep);
+    background: var(--primary-teal-soft);
+}
+
+.app-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 30;
+    overflow: hidden;
+    min-width: 220px;
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: var(--shadow-floating);
+}
+
+.app-menu--notifications {
+    width: min(420px, calc(100vw - 32px));
+}
+
+.app-menu__header,
+.app-notification,
+.app-menu__footer,
+.app-menu--profile button {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.app-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.app-menu__header div {
+    display: flex;
+    gap: 8px;
+}
+
+.app-menu__header button,
+.app-notification__actions button {
+    color: var(--primary-teal-deep);
+    background: transparent;
+    font-size: 0.74rem;
+}
+
+.app-notification-list {
+    max-height: 380px;
+    overflow: auto;
+}
+
+.app-notification {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.app-notification.is-unread {
+    background: rgba(20, 184, 166, 0.06);
+}
+
+.app-notification svg {
+    color: var(--risk-medium);
+}
+
+.app-notification p {
+    margin: 0 0 4px;
+    color: var(--heading-color);
+    line-height: 1.45;
+}
+
+.app-notification small,
+.app-notification__actions span,
+.app-empty-menu span {
+    color: var(--body-text);
+}
+
+.app-notification__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.app-notification__actions span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+}
+
+.app-empty-menu {
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    padding: 32px 16px;
+    text-align: center;
+}
+
+.app-empty-menu svg {
+    color: var(--risk-low);
+}
+
+.app-menu__footer,
+.app-menu--profile button {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 14px;
+    color: var(--heading-color);
+    background: #ffffff;
+    text-align: left;
+}
+
+.app-menu__footer {
+    text-align: center;
+    color: var(--primary-teal-deep);
+}
+
+.app-menu--profile button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-menu--profile .app-menu__danger {
+    color: var(--risk-high);
+}
+
+.app-shell__main {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 28px;
+}
+
+@media (max-width: 980px) {
+    .app-shell__body,
+    .app-shell--collapsed .app-shell__body {
+        grid-template-columns: 1fr;
+    }
+
+    .app-sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .app-sidebar__brand,
+    .app-sidebar__collapse {
+        display: none;
+    }
+
+    .app-sidebar__nav {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .app-sidebar__link {
+        flex: 0 0 auto;
+    }
+
+    .app-sidebar__link.is-active::before {
+        display: none;
+    }
+
+    .app-header {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 680px) {
+    .app-header__actions {
+        align-items: stretch;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .app-health,
+    .app-profile-button {
+        flex: 1;
+    }
+
+    .app-profile-button span:first-child {
+        text-align: left;
+    }
+
+    .app-shell__main {
+        padding: 18px;
+    }
+}
