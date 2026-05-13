@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import inspect
+from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 import uvicorn
 
@@ -49,6 +50,26 @@ def get_missing_supabase_tables() -> list[str]:
         for table_name in REQUIRED_SUPABASE_TABLES
         if not db_inspector.has_table(table_name, schema="public")
     ]
+
+
+def ensure_notification_user_state_columns() -> None:
+    with engine.begin() as connection:
+        connection.execute(text(
+            "alter table public.notifications "
+            "add column if not exists read_by jsonb not null default '[]'::jsonb"
+        ))
+        connection.execute(text(
+            "alter table public.notifications "
+            "add column if not exists deleted_by jsonb not null default '[]'::jsonb"
+        ))
+        connection.execute(text(
+            "create index if not exists idx_notifications_read_by "
+            "on public.notifications using gin (read_by)"
+        ))
+        connection.execute(text(
+            "create index if not exists idx_notifications_deleted_by "
+            "on public.notifications using gin (deleted_by)"
+        ))
 
 app = FastAPI(
     title="FraudDetectAI Production",
@@ -177,6 +198,8 @@ async def startup_live_stream_service():
             f"{', '.join(missing_tables)}. Run supabase_schema.sql in the Supabase SQL editor."
         )
         return
+
+    ensure_notification_user_state_columns()
 
     app.state.database_schema_error = None
     register_live_stream_loop(app)

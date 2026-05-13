@@ -5,7 +5,7 @@ export const navigationItems = [
     { label: 'Transactions', iconKey: 'directory', to: '/directory', roles: ['Admin', 'Analyst', 'Viewer'] },
     { label: 'Transaction Details', iconKey: 'customer', to: '/customer-360', roles: ['Admin', 'Analyst'] },
     { label: 'Explainability', iconKey: 'xai', to: '/xai', roles: ['Admin', 'Analyst', 'Viewer'] },
-    { label: 'Live Stream', iconKey: 'stream', to: '/live-stream', roles: ['Admin', 'Analyst', 'Viewer'] },
+    { label: 'Live Stream', iconKey: 'stream', to: '/live-stream', roles: ['Admin', 'Analyst'] },
     { label: 'Audits', iconKey: 'audits', to: '/audits', roles: ['Admin'] },
     { label: 'Alerts', iconKey: 'alerts', to: '/actions', roles: ['Admin'] },
     { label: 'Case Management', iconKey: 'cases', to: '/audit-logs', roles: ['Admin'] },

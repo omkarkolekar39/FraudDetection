@@ -82,13 +82,20 @@ def _build_metadata(df: pd.DataFrame, ignored_columns: list[str] | None = None) 
     }
 
 
-def process_csv_contents(request, contents: bytes, filename: str | None, uploaded_by: str, user_ignored_columns=None):
+def process_csv_contents(
+    request,
+    contents: bytes,
+    filename: str | None,
+    uploaded_by: str,
+    user_ignored_columns=None,
+    allow_live_stream: bool = True,
+):
     ignored_columns = list(user_ignored_columns or [])
     uploaded_df = _read_csv_contents(contents)
     current_df = getattr(request.app.state, "raw_df", None)
     request.app.state.user_ignored_columns = ignored_columns
 
-    if current_df is not None and _has_ready_live_models(request.app):
+    if allow_live_stream and current_df is not None and _has_ready_live_models(request.app):
         from services.live_stream_service import get_live_stream_status
 
         if _is_same_current_dataset(current_df, uploaded_df):
@@ -162,4 +169,5 @@ async def process_uploaded_csv(request, db, file, uploaded_by: str, user_ignored
         getattr(file, "filename", None),
         uploaded_by,
         user_ignored_columns,
+        allow_live_stream=True,
     )

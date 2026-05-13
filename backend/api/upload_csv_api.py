@@ -24,6 +24,7 @@ async def upload_csv_to_buffer(
         # Read file contents in async context
         contents = await file.read()
         username = current_user.username
+        allow_live_stream = current_user.role in {"Admin", "Analyst"}
         app = request.app
         filename = file.filename
 
@@ -39,6 +40,7 @@ async def upload_csv_to_buffer(
                 filename,
                 username,
                 parsed_ignored_columns,
+                allow_live_stream=allow_live_stream,
             )
 
         job_id = start_background_job(job_target)

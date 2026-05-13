@@ -14,6 +14,9 @@ router = APIRouter()
 
 @router.get("/live-stream/status")
 def fetch_live_stream_status(request: Request, current_user=Depends(get_current_user)):
+    if current_user.role not in {"Admin", "Analyst"}:
+        raise HTTPException(status_code=403, detail="Only Admin or Analyst users can view live stream status.")
+
     return get_live_stream_status(request.app)
 
 
@@ -22,8 +25,8 @@ async def watch_existing_csv_file(
     request: Request,
     current_user=Depends(get_current_user),
 ):
-    if current_user.role not in {"Admin", "Analyst", "Viewer"}:
-        raise HTTPException(status_code=403, detail="Only Admin, Analyst, or Viewer users can watch CSV files.")
+    if current_user.role not in {"Admin", "Analyst"}:
+        raise HTTPException(status_code=403, detail="Only Admin or Analyst users can watch CSV files.")
 
     payload = await request.json()
     csv_path = str(payload.get("path") or "").strip()
@@ -73,8 +76,8 @@ def publish_live_stream_row(
     request: Request,
     current_user=Depends(get_current_user),
 ):
-    if current_user.role not in {"Admin", "Analyst", "Viewer"}:
-        raise HTTPException(status_code=403, detail="Only Admin, Analyst, or Viewer users can publish live rows.")
+    if current_user.role not in {"Admin", "Analyst"}:
+        raise HTTPException(status_code=403, detail="Only Admin or Analyst users can publish live rows.")
 
     try:
         result = score_stream_row(

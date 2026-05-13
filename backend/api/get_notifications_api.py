@@ -17,6 +17,35 @@ def _notification_scope_query(db: Session, current_user):
         )
     )
 
+
+def _user_list(value) -> list[str]:
+    if isinstance(value, list):
+        return [str(item) for item in value]
+    return []
+
+
+def _is_read_for_user(notification: Notification, username: str) -> bool:
+    return bool(notification.is_read) or username in _user_list(notification.read_by)
+
+
+def _is_deleted_for_user(notification: Notification, username: str) -> bool:
+    return username in _user_list(notification.deleted_by)
+
+
+def _mark_read_for_user(notification: Notification, username: str) -> None:
+    read_by = _user_list(notification.read_by)
+    if username not in read_by:
+        notification.read_by = [*read_by, username]
+
+    if notification.target_username == username:
+        notification.is_read = True
+
+
+def _mark_deleted_for_user(notification: Notification, username: str) -> None:
+    deleted_by = _user_list(notification.deleted_by)
+    if username not in deleted_by:
+        notification.deleted_by = [*deleted_by, username]
+
 @router.get("/my-alerts")
 def fetch_notifications(
     request: Request,
@@ -31,7 +60,7 @@ def fetch_notifications(
         notifs = (
             _notification_scope_query(db, current_user)
             .order_by(Notification.timestamp.desc(), Notification.id.desc())
-            .limit(20)
+            .limit(50)
             .all()
         )
 
@@ -39,13 +68,18 @@ def fetch_notifications(
         # This helps the user know the system is alive even if the DB is fresh
         results = []
         for n in notifs:
+            if _is_deleted_for_user(n, current_user.username):
+                continue
+
             results.append({
                 "id": n.id,
                 "message": n.message,
                 "type": "warning" if "risk" in n.message.lower() else "info",
-                "is_read": n.is_read,
+                "is_read": _is_read_for_user(n, current_user.username),
                 "time": n.timestamp.strftime("%d %b %Y, %I:%M %p") if n.timestamp else "Just now"
             })
+            if len(results) >= 20:
+                break
 
         # Fallback: If DB is empty but data is loaded in RAM
         if not results and getattr(request.app.state, 'raw_df', None) is not None:
@@ -53,7 +87,7 @@ def fetch_notifications(
                 "id": 0,
                 "message": "Neural Buffer Secured: 150 records awaiting analysis.",
                 "type": "success",
-                "is_read": False,
+                "is_read": True,
                 "time": "System"
             })
 
@@ -74,7 +108,7 @@ def mark_notification_read(
     if not notification:
         raise HTTPException(status_code=404, detail="Notification not found.")
 
-    notification.is_read = True
+    _mark_read_for_user(notification, current_user.username)
     db.commit()
     return {"status": "success", "message": "Notification marked as read."}
 
@@ -84,11 +118,16 @@ def mark_all_notifications_read(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
-    notifications = _notification_scope_query(db, current_user).filter(Notification.is_read == False).all()
+    notifications = _notification_scope_query(db, current_user).all()
+    updated = 0
     for notification in notifications:
-        notification.is_read = True
+        if _is_deleted_for_user(notification, current_user.username):
+            continue
+        if not _is_read_for_user(notification, current_user.username):
+            _mark_read_for_user(notification, current_user.username)
+            updated += 1
     db.commit()
-    return {"status": "success", "updated": len(notifications)}
+    return {"status": "success", "updated": updated}
 
 
 @router.delete("/clear-read")
@@ -96,10 +135,21 @@ def clear_read_notifications(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
-    notifications = _notification_scope_query(db, current_user).filter(Notification.is_read == True).all()
-    deleted_ids = [notification.id for notification in notifications]
+    notifications = _notification_scope_query(db, current_user).all()
+    deleted_ids = [
+        notification.id
+        for notification in notifications
+        if _is_read_for_user(notification, current_user.username)
+        and not _is_deleted_for_user(notification, current_user.username)
+    ]
     for notification in notifications:
-        db.delete(notification)
+        if notification.id not in deleted_ids:
+            continue
+
+        if notification.target_username == current_user.username:
+            db.delete(notification)
+        else:
+            _mark_deleted_for_user(notification, current_user.username)
     db.commit()
     return {"status": "success", "deleted_ids": deleted_ids}
 
@@ -114,6 +164,9 @@ def delete_notification(
     if not notification:
         raise HTTPException(status_code=404, detail="Notification not found.")
 
-    db.delete(notification)
+    if notification.target_username == current_user.username:
+        db.delete(notification)
+    else:
+        _mark_deleted_for_user(notification, current_user.username)
     db.commit()
     return {"status": "success", "deleted_id": notification_id}

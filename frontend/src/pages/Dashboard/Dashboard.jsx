@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Activity, BarChart3, Database, ShieldAlert, Users } from 'lucide-react';
+import { Activity, BarChart3, Database, Users } from 'lucide-react';
 
 import { getDashboardStats } from '../../api/mlEndpoints';
 import RiskBadge from '../../components/UI/RiskBadge';
@@ -43,6 +43,7 @@ const Dashboard = () => {
 
     const metrics = dashboardStats || {};
     const totalRecords = Number(metrics.total_records || 0);
+    const isAdmin = user?.role === 'Admin';
 
     const riskCards = useMemo(() => ([
         {
@@ -75,7 +76,6 @@ const Dashboard = () => {
                 highRisk: metrics.total_high_risk || 0,
                 mediumRisk: metrics.total_medium_risk || 0,
                 lowRisk: metrics.total_low_risk || 0,
-                riskExposure: metrics.risk_exposure || 0,
             },
             chartsSelectors: [
                 '.dashboard-summary-grid',
@@ -110,16 +110,13 @@ const Dashboard = () => {
                     <span>Total records</span>
                     <strong>{totalRecords.toLocaleString()}</strong>
                 </article>
-                <article className="surface-card dashboard-summary-card">
-                    <ShieldAlert size={20} />
-                    <span>Risk exposure</span>
-                    <strong>{Number(metrics.risk_exposure || 0).toFixed(1)}%</strong>
-                </article>
-                <article className="surface-card dashboard-summary-card">
-                    <Users size={20} />
-                    <span>Active users</span>
-                    <strong>{Number(metrics.active_analysts || 0).toLocaleString()}</strong>
-                </article>
+                {isAdmin ? (
+                    <article className="surface-card dashboard-summary-card">
+                        <Users size={20} />
+                        <span>Active users</span>
+                        <strong>{Number(metrics.active_analysts || 0).toLocaleString()}</strong>
+                    </article>
+                ) : null}
                 <article className="surface-card dashboard-summary-card">
                     <Activity size={20} />
                     <span>Model signal</span>

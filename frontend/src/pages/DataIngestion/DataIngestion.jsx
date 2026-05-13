@@ -8,6 +8,7 @@ import {
 import { getLiveStreamSocketUrl, getLiveStreamStatus, publishLiveStreamRow, uploadCsvData, setRiskThresholds, watchCsvFilePath } from '../../api/dataEndpoints';
 import { runMlPipeline } from '../../api/mlEndpoints';
 import { useLiveDatasetWatch } from '../../contexts/useLiveDatasetWatch';
+import { useAuth } from '../../contexts/useAuth';
 import { buildMetadataFromResults } from '../../utils/csvDataset';
 
 import './DataIngestion.css';
@@ -42,6 +43,8 @@ const formatStreamValue = (value) => {
 
 const DataIngestion = () => {
     const fileInputRef = useRef(null);
+    const { user } = useAuth();
+    const canViewLiveStream = user?.role !== 'Viewer';
 
     const [file, setFile] = useState(null);
     const [metadata, setMetadata] = useState(null);
@@ -61,10 +64,14 @@ const DataIngestion = () => {
         startWatching,
         clearWatchedDataset,
     } = useLiveDatasetWatch();
-    const autoWatchSupported = watchState?.supported;
-    const autoWatchActive = watchState?.active;
+    const autoWatchSupported = canViewLiveStream && watchState?.supported;
+    const autoWatchActive = canViewLiveStream && watchState?.active;
 
     useEffect(() => {
+        if (!canViewLiveStream) {
+            return undefined;
+        }
+
         let socket;
         let reconnectTimer;
         let stopped = false;
@@ -119,7 +126,7 @@ const DataIngestion = () => {
                 socket.close();
             }
         };
-    }, []);
+    }, [canViewLiveStream]);
 
     useEffect(() => {
         if (!datasetState?.locked) {
@@ -158,7 +165,7 @@ const DataIngestion = () => {
             || Object.fromEntries(nextMetadata.column_names.map((column) => [column, '']));
         setStreamPayload(JSON.stringify(templateRow, null, 2));
         registerSelectedCsv({
-            fileHandle,
+            fileHandle: canViewLiveStream ? fileHandle : null,
             rows: rawResults.data || [],
             columns: rawResults.meta.fields || [],
             fileName: selectedFile.name,
@@ -301,7 +308,9 @@ const DataIngestion = () => {
                 setPipelineStatus({ loading: false, success: true, error: null });
                 setShowPopup(true);
                 setStreamStatus(response.live_stream || await getLiveStreamStatus());
-                startWatching();
+                if (canViewLiveStream) {
+                    startWatching();
+                }
                 window.setTimeout(() => setShowPopup(false), 1600);
             }
         } catch (error) {
@@ -434,8 +443,8 @@ const DataIngestion = () => {
 
                             {file && <span className="file-chip-3d">{file.name}</span>}
                             {autoWatchSupported ? <p className="auto-watch-hint">This browser can keep watching the same selected CSV after upload.</p> : null}
-                            {watchState?.message ? <p className="live-stream-success">{watchState.message}</p> : null}
-                            {watchState?.error ? <p className="error-msg-3d"><AlertCircle size={14} /> {watchState.error}</p> : null}
+                            {canViewLiveStream && watchState?.message ? <p className="live-stream-success">{watchState.message}</p> : null}
+                            {canViewLiveStream && watchState?.error ? <p className="error-msg-3d"><AlertCircle size={14} /> {watchState.error}</p> : null}
                             {uploadStatus.error && <p className="error-msg-3d"><AlertCircle size={14} /> {uploadStatus.error}</p>}
 
                             <button className="btn-primary-3d" onClick={handleLockAndValidate} disabled={!file || uploadStatus.loading}>
@@ -451,7 +460,9 @@ const DataIngestion = () => {
                                 {uploadStatus.loading ? 'SYNCING UPDATED CSV...' : 'SYNC UPDATED CSV'}
                             </label>
                             <p className="incremental-sync-hint">
-                                {autoWatchActive
+                                {!canViewLiveStream
+                                    ? 'Upload the updated CSV here to refresh the dataset analysis.'
+                                    : autoWatchActive
                                     ? 'Auto-watch is active. Save the same CSV after adding rows and they will be analyzed automatically.'
                                     : 'Add rows to the same CSV, then upload it here only if auto-watch is not available. Only newly appended rows are scored.'}
                             </p>
@@ -607,6 +618,7 @@ const DataIngestion = () => {
                         </div>
                     </div>
 
+                    {canViewLiveStream ? (
                     <div className="card-3d-ingestion full-width-3d">
                         <div className="live-stream-header">
                             <div>
@@ -712,6 +724,7 @@ const DataIngestion = () => {
                             </div>
                         </div>
                     </div>
+                    ) : null}
 
                     <div className="card-3d-ingestion full-width-3d">
                         <h3 className="card-heading-3d">DATASET PREVIEW</h3>

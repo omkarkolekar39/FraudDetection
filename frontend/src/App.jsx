@@ -98,7 +98,7 @@ const AppRoutes = () => {
                 } />
 
                 <Route path="/live-stream" element={
-                    <ProtectedRoute allowedRoles={['Admin', 'Analyst', 'Viewer']}>
+                    <ProtectedRoute allowedRoles={['Admin', 'Analyst']}>
                         <LiveStream />
                     </ProtectedRoute>
                 } />

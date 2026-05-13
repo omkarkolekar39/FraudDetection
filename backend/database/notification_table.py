@@ -1,4 +1,5 @@
 from sqlalchemy import BigInteger, Column, String, Boolean, DateTime
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from config.db_config import Base
 
@@ -10,4 +11,6 @@ class Notification(Base):
     target_role = Column(String, default="All")     # "Admin", "Analyst", or "All"
     message = Column(String, nullable=False)
     is_read = Column(Boolean, default=False)
+    read_by = Column(JSONB, nullable=False, default=list)
+    deleted_by = Column(JSONB, nullable=False, default=list)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
