@@ -1,0 +1,59 @@
+.sw-chart-wrapper-3d {
+    background: transparent;
+    border-radius: 6px;
+    padding: 0;
+    height: 100%;
+}
+
+.sw-recharts-container {
+    width: 100%;
+    position: relative;
+}
+
+.sw-bar-item {
+    transition: opacity 0.3s ease;
+    cursor: crosshair;
+}
+
+.sw-bar-item:hover {
+    opacity: 0.8;
+}
+
+/* --- LEGEND & FOOTER --- */
+.sw-chart-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sw-legend {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.sw-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.82);
+    text-transform: uppercase;
+}
+
+.sw-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.sw-dot.red {
+    background: #ef4444;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.sw-dot.green {
+background: #52C41A;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}

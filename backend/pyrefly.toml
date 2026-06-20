@@ -1,0 +1,14 @@
+# pyrefly.toml — Pyrefly type checker configuration
+# Docs: https://pyrefly.org/en/stable/configuration/
+
+# Point Pyrefly to the project venv, NOT the system Python 3.14
+# This resolves all "Cannot find module" errors for api.*, services.*, etc.
+python_interpreter = "venv/Scripts/python.exe"
+
+# Add the backend root to the search path so Pyrefly can find
+# modules like `api.login_api`, `services.login_service`, etc.
+search_path = ["."]
+
+# Suppress noisy warnings for files Pyrefly cannot fully analyze
+# (e.g. NumPy/Torch stubs that aren't installed in the venv)
+ignore_missing_source = true

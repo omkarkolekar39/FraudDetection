@@ -1,0 +1,71 @@
+/* FraudDetectAI/frontend/src/components/UI/StatCard.css */
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 146px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    border-radius: 24px;
+    background:
+        linear-gradient(155deg, rgba(255, 255, 255, 0.94), rgba(237, 248, 248, 0.84)),
+        radial-gradient(circle at top right, rgba(20, 184, 166, 0.1), transparent 30%);
+    box-shadow: var(--shadow-floating);
+    backdrop-filter: blur(14px);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    transform-style: preserve-3d;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px) rotateX(4deg);
+    border-color: rgba(15, 118, 110, 0.2);
+}
+
+.stat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.stat-title {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--body-text);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.stat-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Color classes to match risk tiers dynamically */
+.icon-blue { background-color: rgba(15, 118, 110, 0.1); color: var(--primary-teal-deep); }
+.icon-red { background-color: rgba(255, 77, 79, 0.1); color: var(--risk-high); }
+.icon-yellow { background-color: rgba(250, 173, 20, 0.14); color: #a15c00; }
+.icon-green { background-color: rgba(82, 196, 26, 0.12); color: var(--risk-low); }
+.icon-gray { background-color: var(--surface-muted); color: var(--body-text); }
+
+.stat-value {
+    margin: 18px 0 0;
+    font-size: clamp(2rem, 2.4vw, 2.8rem);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: var(--heading-color);
+    line-height: 1.05;
+}
+
+.stat-subtitle {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+    color: var(--body-text);
+}

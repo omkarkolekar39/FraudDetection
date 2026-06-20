@@ -1,0 +1,72 @@
+.analyst-dashboard {
+    gap: 24px;
+}
+
+.analyst-layout-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 18px;
+}
+
+.analyst-filter-panel {
+    padding: 22px;
+}
+
+.analyst-filter-panel h2 {
+    margin: 4px 0 18px;
+    font-size: 1.35rem;
+    font-weight: 300;
+    color: var(--heading-color);
+}
+
+.analyst-tier-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.analyst-tier-chip {
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+    color: var(--body-text);
+    cursor: pointer;
+}
+
+.analyst-tier-chip.active {
+    background: var(--primary-purple);
+    border-color: var(--primary-purple);
+    color: #ffffff;
+}
+
+.analyst-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    color: var(--body-text);
+}
+
+.analyst-filter-copy {
+    margin: 0;
+    color: var(--body-text);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.analyst-table-wrap {
+    overflow: auto;
+}
+
+.analyst-table tbody tr {
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .analyst-layout-grid {
+        grid-template-columns: 1fr;
+    }
+}

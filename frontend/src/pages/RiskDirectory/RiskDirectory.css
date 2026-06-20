@@ -1,0 +1,79 @@
+.transactions-page {
+    gap: 20px;
+}
+
+.transactions-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.transactions-tier-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.transactions-tier-tab {
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--body-text);
+    cursor: pointer;
+}
+
+.transactions-tier-tab.active {
+    background: var(--primary-purple);
+    border-color: var(--primary-purple);
+    color: #ffffff;
+}
+
+.transactions-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: min(360px, 100%);
+    color: var(--body-text);
+}
+
+.transactions-table-shell {
+    overflow: hidden;
+}
+
+.transactions-scroll {
+    max-height: 620px;
+    overflow: auto;
+}
+
+.transactions-table tbody tr {
+    cursor: default;
+}
+
+.transactions-loader,
+.directory-inline-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    color: var(--body-text);
+}
+
+.transactions-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--body-text);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .transactions-search {
+        min-width: 100%;
+    }
+}

@@ -1,0 +1,146 @@
+.case-management-page {
+    gap: 22px;
+}
+
+.case-management-top {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 16px;
+}
+
+.case-details-card,
+.case-actions-card,
+.case-table-card {
+    padding: 22px;
+}
+
+.case-details-card h2,
+.case-actions-card h2,
+.case-table-card h2 {
+    margin: 4px 0 14px;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--heading-color);
+}
+
+.case-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.case-detail-grid span {
+    display: block;
+    color: var(--body-text);
+    font-size: 0.82rem;
+}
+
+.case-detail-grid strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--heading-color);
+    font-weight: 400;
+}
+
+.case-details-card p {
+    margin: 0;
+    color: var(--body-text);
+    line-height: 1.6;
+}
+
+.case-actions-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.case-outline-button {
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 6px;
+    background: transparent;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.case-outline-button--danger {
+    border: 1px solid rgba(234, 34, 97, 0.34);
+    color: var(--risk-high);
+}
+
+.case-outline-button--success {
+    border: 1px solid rgba(21, 190, 83, 0.28);
+    color: var(--risk-low);
+}
+
+.case-table-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.case-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: min(320px, 100%);
+    color: var(--body-text);
+}
+
+.case-table-wrap {
+    overflow: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.case-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.case-table th,
+.case-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.case-table th {
+    background: var(--surface-subtle);
+    color: var(--body-text);
+    font-size: 0.76rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.case-table tbody tr {
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.case-table tbody tr:hover,
+.case-table tbody tr.selected {
+    background: rgba(83, 58, 253, 0.05);
+}
+
+@media (max-width: 1024px) {
+    .case-management-top {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 860px) {
+    .case-table-card__header {
+        flex-direction: column;
+    }
+
+    .case-search {
+        min-width: 100%;
+    }
+
+    .case-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
